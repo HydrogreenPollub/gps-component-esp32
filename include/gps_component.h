@@ -15,7 +15,7 @@ extern "C" {
 #include "esp_err.h"
 #include "driver/uart.h"
 
-#define GPS_MAX_SATELLITES_IN_USE (12)
+#define GPS_MAX_SATELLITES_IN_USE  (12)
 #define GPS_MAX_SATELLITES_IN_VIEW (16)
 
 /**
@@ -48,7 +48,8 @@ typedef enum {
  * @brief GPS satellite information
  *
  */
-typedef struct {
+typedef struct
+{
     uint8_t num;       /*!< Satellite number */
     uint8_t elevation; /*!< Satellite elevation */
     uint16_t azimuth;  /*!< Satellite azimuth */
@@ -59,7 +60,8 @@ typedef struct {
  * @brief GPS time
  *
  */
-typedef struct {
+typedef struct
+{
     uint8_t hour;      /*!< Hour */
     uint8_t minute;    /*!< Minute */
     uint8_t second;    /*!< Second */
@@ -70,7 +72,8 @@ typedef struct {
  * @brief GPS date
  *
  */
-typedef struct {
+typedef struct
+{
     uint8_t day;   /*!< Day (start from 1) */
     uint8_t month; /*!< Month (start from 1) */
     uint16_t year; /*!< Year (start from 2000) */
@@ -94,7 +97,8 @@ typedef enum {
  * @brief GPS object
  *
  */
-typedef struct {
+typedef struct
+{
     float latitude;                                                /*!< Latitude (degrees) */
     float longitude;                                               /*!< Longitude (degrees) */
     float altitude;                                                /*!< Altitude (meters) */
@@ -119,8 +123,10 @@ typedef struct {
  * @brief Configuration of NMEA Parser
  *
  */
-typedef struct {
-    struct {
+typedef struct
+{
+    struct
+    {
         uart_port_t uart_port;        /*!< UART port number */
         uint32_t rx_pin;              /*!< UART Rx Pin number */
         uint32_t baud_rate;           /*!< UART baud rate */
@@ -135,23 +141,23 @@ typedef struct {
  * @brief NMEA Parser Handle
  *
  */
-typedef void *nmea_parser_handle_t;
+typedef void* nmea_parser_handle_t;
 
 /**
  * @brief Default configuration for NMEA Parser
  *
  */
-#define NMEA_PARSER_CONFIG_DEFAULT()              \
-    {                                             \
-        .uart = {                                 \
-            .uart_port = UART_NUM_1,              \
-            .rx_pin = CONFIG_NMEA_PARSER_UART_RXD,\
-            .baud_rate = 9600,                    \
-            .data_bits = UART_DATA_8_BITS,        \
-            .parity = UART_PARITY_DISABLE,        \
-            .stop_bits = UART_STOP_BITS_1,        \
-            .event_queue_size = 16                \
-        }                                         \
+#define NMEA_PARSER_CONFIG_DEFAULT()                                                                                   \
+    {                                                                                                                  \
+        .uart                                                                                                          \
+            = {.uart_port = UART_NUM_1,                                                                                \
+                  .rx_pin = CONFIG_NMEA_PARSER_UART_RXD,                                                               \
+                  .baud_rate = 9600,                                                                                   \
+                  .data_bits = UART_DATA_8_BITS,                                                                       \
+                  .parity = UART_PARITY_DISABLE,                                                                       \
+                  .stop_bits = UART_STOP_BITS_1,                                                                       \
+                  .event_queue_size = 16,                                                                              \
+              }                                                                                                        \
     }
 
 /**
@@ -169,7 +175,7 @@ typedef enum {
  * @param config Configuration of NMEA Parser
  * @return nmea_parser_handle_t handle of NMEA parser
  */
-nmea_parser_handle_t nmea_parser_init(const nmea_parser_config_t *config);
+nmea_parser_handle_t nmea_parser_init(const nmea_parser_config_t* config);
 
 /**
  * @brief Deinit NMEA Parser
@@ -191,7 +197,7 @@ esp_err_t nmea_parser_deinit(nmea_parser_handle_t nmea_hdl);
  *  - ESP_ERR_INVALIG_ARG: Invalid combination of event base and event id
  *  - Others: Fail
  */
-esp_err_t nmea_parser_add_handler(nmea_parser_handle_t nmea_hdl, esp_event_handler_t event_handler, void *handler_args);
+esp_err_t nmea_parser_add_handler(nmea_parser_handle_t nmea_hdl, esp_event_handler_t event_handler, void* handler_args);
 
 /**
  * @brief Remove user defined handler for NMEA parser
